@@ -1,14 +1,13 @@
 ## CSARCH2-Simulator
-Unsigned Binary Division Simulator
+Unsigned Binary Division Simulator (Implemented with ReactJS, and Tailwind CSS Framework)
 
-- Implemented with ReactJS, and Tailwind CSS Framework
 
-- First Run:
-'''bash
+After cloning the repository, first run:
+```bash
 npm install
-'''
+```
 
-- Then start server:
-'''bash
+And then start the server with:
+```bash
 npm start
-'''
+```
