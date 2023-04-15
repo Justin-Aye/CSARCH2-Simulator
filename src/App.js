@@ -61,14 +61,14 @@ export default function App() {
         var Q = data.dividend;
         var M_pos = data.divisor;
 
-        //sign extend if MSb value of Q or M is 1
-        M_pos = (M_pos.charAt(0) === "1") ? "0" + M_pos: M_pos;
-
         //sign extend operand with lesser bits
         if(Q.length > M_pos.length)
             M_pos = Array((Q.length - M_pos.length) + 1).join('0') + M_pos;
         else if (Q.length < M_pos.length)
             Q = Array((M_pos.length - Q.length) + 1).join('0') + Q;
+
+        //sign extend if MSb value of Q or M is 1
+        M_pos = (M_pos.charAt(0) === "1") ? "0" + M_pos: M_pos;
 
         
         //initialize A
