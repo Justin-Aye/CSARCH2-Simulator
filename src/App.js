@@ -70,14 +70,17 @@ export default function App() {
         //sign extend if MSb value of Q or M is 1
         M_pos = (M_pos.charAt(0) === "1") ? "0" + M_pos: M_pos;
 
-        
         //initialize A
         var A = []
         for (let i = 0; i < Q.length + 1; i++) 
             A.push("0")
 
         A = A.join("") //make A array into string
-        
+
+        //sign extend to match A
+        if(A.length > M_pos.length)
+            M_pos = Array((A.length - M_pos.length) + 1).join('0') + M_pos;
+
         var M_neg = negateBin(M_pos, A.length)
 
 
@@ -85,7 +88,8 @@ export default function App() {
             A: A,
             M_neg: M_neg,
             M: M_pos,
-            Q: Q
+            Q: Q,
+            Q_0: "0"
         })
 
         //actual iteration
@@ -337,7 +341,7 @@ export default function App() {
                             <p className="mt-5 italic font-semibold text-green-800">Please enter your inputs:</p>
                             <div className="w-full mt-3 flex justify-center items-center">
                                 <div className="">
-                                    <input type="text" placeholder="unsigned dividend" className="text-xl text-center font-semibold focus: outline-none placeholder:italic placeholder:font-normal"
+                                    <input type="text" placeholder="unsigned dividend" className="text-xl text-center font-mono font-semibold focus: outline-none placeholder:italic placeholder:font-normal"
                                         {...register("dividend", {required: true, 
                                             pattern: watch("dataType") === "binary" ? new RegExp("^[0-1]{1,}$") : new RegExp("^[0-9]*$"),
                                             validate: {
@@ -348,7 +352,7 @@ export default function App() {
                                         })}
                                         />
                                     <hr className="border border-gray-400"/>
-                                    <input type="text" placeholder="unsigned divisor" className="text-xl text-center font-semibold focus: outline-none placeholder:italic placeholder:font-normal"
+                                    <input type="text" placeholder="unsigned divisor" className="text-xl text-center font-mono font-semibold focus: outline-none placeholder:italic placeholder:font-normal"
                                         {...register("divisor", {required: true, 
                                             pattern: watch("dataType") === "binary" ? new RegExp("^[0-1]{1,}$") : new RegExp("^[0-9]*$"),
                                             validate: {
@@ -405,13 +409,33 @@ export default function App() {
                                 <p className="w-full text-center font-bold text-xl lg:text-2xl">Steps to Achieve Your Answer</p>
                                 
                                 {/*Initializations*/}
-                                <p className="mt-5 font-bold text-lg lg:text-xl">Initializations:</p>
-                                <div className="mt-2 grid grid-rows-4 grid-flow-col gap-2 text-lg">
-                                        <p className=""><span className="font-bold">A: </span>{initialized.A}</p>
-                                        <p className=""><span className="font-bold">Q: </span>{initialized.Q}</p>
-                                        <p className=""><span className="font-bold">M: </span>{initialized.M}</p>
-                                        <p className=""><span className="font-bold">-M: </span>{initialized.M_neg}</p>
+                                <div className="flex flex-col">
+                                    <div className="my-5 flex flex-row place-items-start space-x-4">
+                                        <p className="font-bold text-lg lg:text-xl">Initializations:</p>
+                                        
+                                        <div className="flex flex-row space-x-10 self-center">
+                                            <div className="flex flex-col text-end">
+                                                <p className="font-mont font-bold">Q:</p>
+                                                <p className="font-mont font-bold">M:</p>
+                                                <p className="font-mont font-bold">-M:</p>
+                                                <p className="font-mont font-bold">A:</p>
+                                                <p className="font-mont font-bold">Q<sub>0</sub>:</p>
+                                            </div>
+
+                                            <div className="flex flex-col text-start">
+                                                <p className="font-mono">{initialized.Q}</p>
+                                                <p className="font-mono">{initialized.M}</p>
+                                                <p className="font-mono">{initialized.M_neg}</p>
+                                                <p className="font-mono">{initialized.A}</p>
+                                                <p className="font-mono">{initialized.Q_0}</p>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+
+                                
+
+                                
 
                                 <div className="mt-5 w-full grid grid-cols-5 gap-2 text-center break-all"> 
                                     {/*Header*/}
@@ -429,20 +453,20 @@ export default function App() {
                                                     
                                                 {/*Get Values Row*/}
                                                 <div class="">Get Values</div>
-                                                <div class="">{item.initial_A}</div>
-                                                <div class="">{item.initial_Q}</div>
+                                                <div class="font-mono">{item.initial_A}</div>
+                                                <div class="font-mono">{item.initial_Q}</div>
                                                 <div></div>
 
                                                 {/*Shift Row*/}
                                                 <div class="">Shift</div>
-                                                <div class="">{item.shifted_A}</div>
-                                                <div class="">{item.shifted_Q}</div>
+                                                <div class="font-mono">{item.shifted_A}</div>
+                                                <div class="font-mono">{item.shifted_Q}</div>
                                                 <div></div>
 
                                                 {/*A ← A - M Row*/}
                                                 <div class="">A ← A - M</div>
-                                                <div class="">{item.A_sub_M}</div>
-                                                <div class="">{item.shifted_Q}</div>
+                                                <div class="font-mono">{item.A_sub_M}</div>
+                                                <div class="font-mono">{item.shifted_Q}</div>
                                                 <div></div>
 
                                                 {/*Condition Row*/}
@@ -450,9 +474,9 @@ export default function App() {
                                                     <p>Is MSb of A == 1 ? {(item.Q_0 === "0") ? "Yes, ":"No."}</p>
                                                     {(item.Q_0 === "0") && <p>A ← A + M</p>}
                                                 </div>
-                                                <div class="mb-4">{item.final_A}</div>
-                                                <div class="mb-4">{item.final_Q}</div>
-                                                <div class="mb-4">{item.Q_0}</div>
+                                                <div class="mb-4 font-mono">{item.final_A}</div>
+                                                <div class="mb-4 font-mono">{item.final_Q}</div>
+                                                <div class="mb-4 font-mono">{item.Q_0}</div>
                                             </>)
                                         })
                                     }
@@ -508,8 +532,8 @@ export default function App() {
                                     <p className="font-bold text-xl">Quotient</p>
                                     <p className="font-bold text-xl">Remainder</p>
 
-                                    <p className="font-bold text-xl text-end">{answer.quotient}</p>
-                                    <p className="font-bold text-xl text-end">{answer.remainder}</p>
+                                    <p className="font-bold text-xl text-end font-mono">{answer.quotient}</p>
+                                    <p className="font-bold text-xl text-end font-mono">{answer.remainder}</p>
                                 </div>
                             </div>
                         </div>       
