@@ -214,33 +214,20 @@ export default function App() {
         return result;
     }
 
-    //code download here
     const downloadSolution = () => {
         console.log("Downloading file...")
 
         // text content
-        var text="Restoring Unsigned Division Simulator\n====================================================\n\n"
+        var text="Restoring Unsigned Division Simulator\n=====================================\n\n"
         if(submitted.dataType === "decimal") 
             text+="Decimal input\nDividend: "+parseInt(submitted.dividend,2)+"\nDivisor : "+parseInt(submitted.divisor,2)+"\n\n"
         else text+="Binary input\nDividend: "+submitted.dividend+"\nDivisor : "+submitted.divisor+"\n\n"
 
         text+="Initializations:\nA : "+initialized.A+"\nQ : "+initialized.Q+"\nM : "+initialized.M+"\n-M: "+initialized.M_neg+"\nQ₀: 0\n\n"
-        //console.log("length ",steps.length) //steps to get length
-        //console.log(steps) //steps to get answer
-        //console.log(submitted) //dividend & divisor
-        //console.log("answer",answer); //answer in decimal form
         if (steps[0].Q_0 === '0')
             console.log("q0 = 0, yes")
         else console.log("q0 = 1, no")
         
-        // "         Command         " 25
-        // "        Get Values       "
-        // "          Shift          "
-        // "        A ← A - M        "
-        // " Is MSb of A == 1 ? Yes, " 
-        // " Is MSb of A == 1 ? No,  " 
-        // "        A ← A + M        " // if yes
-
         let n = ((steps.length+2)/2)+1 
         text+="  Iteration  |         Command         |"+" ".repeat(n)+"A"+" ".repeat(n)+"|"+" ".repeat(n)+"Q"+" ".repeat(n)+"|  Q₀  \n"
         text+="-------------|-------------------------|"+"-".repeat(n)+"-"+"-".repeat(n)+"|"+"-".repeat(n)+"-"+"-".repeat(n)+"|------\n"
@@ -284,11 +271,10 @@ export default function App() {
             else text+="   "
             text+="|  "+steps[i].Q_0
             if (steps[i].Q_0 === '0') text+="\n             |        A ← A + M        |"+" ".repeat(n)+" "+" ".repeat(n)+"|"+" ".repeat(n)+" "+" ".repeat(n)+"|"
-            //if (i!==steps.length-1) 
-                text+="\n-------------|-------------------------|"+"-".repeat(n)+"-"+"-".repeat(n)+"|"+"-".repeat(n)+"-"+"-".repeat(n)+"|------\n"
+            text+="\n-------------|-------------------------|"+"-".repeat(n)+"-"+"-".repeat(n)+"|"+"-".repeat(n)+"-"+"-".repeat(n)+"|------\n"
         }
         
-        text+="\n\nQuotient : "+answer.quotient+"\nRemainder: "+answer.remainder
+        text+="\nQuotient : "+answer.quotient+"\nRemainder: "+answer.remainder
 
        // file object
         const file = new Blob([text], {type: 'text/plain'});
