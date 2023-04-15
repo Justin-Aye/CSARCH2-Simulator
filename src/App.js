@@ -220,8 +220,6 @@ export default function App() {
 
         // text content
         var text="Restoring Unsigned Division Simulator\n====================================================\n\n"
-        //console.log("initializations", initialized); //initializations
-        console.log("datatype",submitted.dataType)
         if(submitted.dataType === "decimal") 
             text+="Decimal input\nDividend: "+parseInt(submitted.dividend,2)+"\nDivisor : "+parseInt(submitted.divisor,2)+"\n\n"
         else text+="Binary input\nDividend: "+submitted.dividend+"\nDivisor : "+submitted.divisor+"\n\n"
@@ -231,48 +229,63 @@ export default function App() {
         //console.log(steps) //steps to get answer
         //console.log(submitted) //dividend & divisor
         //console.log("answer",answer); //answer in decimal form
+        if (steps[0].Q_0 === '0')
+            console.log("q0 = 0, yes")
+        else console.log("q0 = 1, no")
         
+        // "         Command         " 25
+        // "        Get Values       "
+        // "          Shift          "
+        // "        A ← A - M        "
+        // " Is MSb of A == 1 ? Yes, " 
+        // " Is MSb of A == 1 ? No,  " 
+        // "        A ← A + M        " // if yes
+
         let n = ((steps.length+2)/2)+1 
-        text+="  Iteration  |"+" ".repeat(n)+"A"+" ".repeat(n)+"|"+" ".repeat(n)+"Q"+" ".repeat(n)+"|  Q₀  \n"
-        text+="--------------"+"-".repeat(n)+"-"+"-".repeat(n)+"-"+"-".repeat(n)+"-"+"-".repeat(n)+"-------\n"
+        text+="  Iteration  |         Command         |"+" ".repeat(n)+"A"+" ".repeat(n)+"|"+" ".repeat(n)+"Q"+" ".repeat(n)+"|  Q₀  \n"
+        text+="-------------|-------------------------|"+"-".repeat(n)+"-"+"-".repeat(n)+"|"+"-".repeat(n)+"-"+"-".repeat(n)+"|------\n"
 
        // STEPS
         for (let i = 0; i < steps.length; i++){
-            // INITIAL
+            // Get Values
             text += "     "
             if (i<9) text+=" "
-            text+=i+1+"      |"
-            if (steps.length%2==0) text+="  " //if length is even
+            text+=i+1+"      |        Get Values       |"
+            if (steps.length%2===0) text+="  " //if length is even
             else text+=" "
             text+=steps[i].initial_A+"  |  "+steps[i].initial_Q
-            if (steps.length%2==1) text+="  " //if length is odd
+            if (steps.length%2===1) text+="  " //if length is odd
             else text+="   "
             text+="|   "
-            // SHIFTED
-            text+="\n             |"
-            if (steps.length%2==0) text+="  " //if length is even
+            // Shift
+            text+="\n             |          Shift          |"
+            if (steps.length%2===0) text+="  " //if length is even
             else text+=" "
             text+=steps[i].shifted_A+"  |  "+steps[i].shifted_Q
-            if (steps.length%2==1) text+="  " //if length is odd
+            if (steps.length%2===1) text+="  " //if length is odd
             else text+="   "
             text+="|"
-            // A = A-M
-            text+="\n             |"
-            if (steps.length%2==0) text+="  " //if length is even
+            // A ← A - M
+            text+="\n             |        A ← A - M        |"
+            if (steps.length%2===0) text+="  " //if length is even
             else text+=" "
             text+=steps[i].A_sub_M+"  |  "+steps[i].shifted_Q
-            if (steps.length%2==1) text+="  " //if length is odd
+            if (steps.length%2===1) text+="  " //if length is odd
             else text+="   "
             text+="|"
-            // FINAL
-            text+="\n             |"
-            if (steps.length%2==0) text+="  " //if length is even
+            // Is MSb of A == 1 ? Yes/No,
+            text+="\n             | Is MSb of A == 1 ? "
+            if (steps[i].Q_0 === '0') text+="Yes, |"
+            else text+="No.  |"
+            if (steps.length%2===0) text+="  " //if length is even
             else text+=" "
             text+=steps[i].final_A+"  |  "+steps[i].final_Q
-            if (steps.length%2==1) text+="  " //if length is odd
+            if (steps.length%2===1) text+="  " //if length is odd
             else text+="   "
             text+="|  "+steps[i].Q_0
-            if (i!=steps.length-1) text+="\n--------------"+"-".repeat(n)+"-"+"-".repeat(n)+"-"+"-".repeat(n)+"-"+"-".repeat(n)+"-------\n"
+            if (steps[i].Q_0 === '0') text+="\n             |        A ← A + M        |"+" ".repeat(n)+" "+" ".repeat(n)+"|"+" ".repeat(n)+" "+" ".repeat(n)+"|"
+            //if (i!==steps.length-1) 
+                text+="\n-------------|-------------------------|"+"-".repeat(n)+"-"+"-".repeat(n)+"|"+"-".repeat(n)+"-"+"-".repeat(n)+"|------\n"
         }
         
         text+="\n\nQuotient : "+answer.quotient+"\nRemainder: "+answer.remainder
@@ -448,7 +461,7 @@ export default function App() {
 
                                                 {/*Condition Row*/}
                                                 <div class="mb-4">
-                                                    <p>Is MSb of A == 1 ? {(item.Q_0 === "0") ? "Yes, ":"No"}</p>
+                                                    <p>Is MSb of A == 1 ? {(item.Q_0 === "0") ? "Yes, ":"No."}</p>
                                                     {(item.Q_0 === "0") && <p>A ← A + M</p>}
                                                 </div>
                                                 <div class="mb-4">{item.final_A}</div>
