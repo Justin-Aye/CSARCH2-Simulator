@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/CSARCH2-Simulator/static/css/main.3f5a6755.css",
+    "main.js": "/CSARCH2-Simulator/static/js/main.e08b40ba.js",
+    "index.html": "/CSARCH2-Simulator/index.html",
+    "main.3f5a6755.css.map": "/CSARCH2-Simulator/static/css/main.3f5a6755.css.map",
+    "main.e08b40ba.js.map": "/CSARCH2-Simulator/static/js/main.e08b40ba.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3f5a6755.css",
+    "static/js/main.e08b40ba.js"
+  ]
+}
