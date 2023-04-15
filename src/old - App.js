@@ -3,14 +3,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function App() {
-    const [submitted, setSubmitted] = useState({});
-    useEffect(()=>{
-        console.log("submitted",submitted);
-    },[submitted]);
-    
     const [steps, setSteps] = useState(Array(0));
     useEffect(()=>{
-        console.log("steps",steps);
+        console.log(steps);
     },[steps]);
 
     const [numStep, setNumStep] = useState(1);
@@ -54,7 +49,6 @@ export default function App() {
             data.divisor = parseInt(data.divisor).toString(2);
         }
 
-        setSubmitted(data);
         setSteps([]);
         
         //initialize Q, M, and -M
@@ -62,6 +56,7 @@ export default function App() {
         var M_pos = data.divisor;
 
         //sign extend if MSb value of Q or M is 1
+        Q = (Q.charAt(0) === "1") ? "0" + Q: Q;
         M_pos = (M_pos.charAt(0) === "1") ? "0" + M_pos: M_pos;
 
         //sign extend operand with lesser bits
@@ -214,84 +209,6 @@ export default function App() {
         return result;
     }
 
-    //code download here
-    const downloadSolution = () => {
-        console.log("Downloading file...")
-
-        // text content
-        var text="Restoring Unsigned Division Simulator\n====================================================\n\n"
-        //console.log("initializations", initialized); //initializations
-        console.log("datatype",submitted.dataType)
-        if(submitted.dataType === "decimal") 
-            text+="Decimal input\nDividend: "+parseInt(submitted.dividend,2)+"\nDivisor : "+parseInt(submitted.divisor,2)+"\n\n"
-        else text+="Binary input\nDividend: "+submitted.dividend+"\nDivisor : "+submitted.divisor+"\n\n"
-
-        text+="Initializations:\nA : "+initialized.A+"\nQ : "+initialized.Q+"\nM : "+initialized.M+"\n-M: "+initialized.M_neg+"\nQ₀: 0\n\n"
-        //console.log("length ",steps.length) //steps to get length
-        //console.log(steps) //steps to get answer
-        //console.log(submitted) //dividend & divisor
-        //console.log("answer",answer); //answer in decimal form
-        
-        let n = ((steps.length+2)/2)+1 
-        text+="  Iteration  |"+" ".repeat(n)+"A"+" ".repeat(n)+"|"+" ".repeat(n)+"Q"+" ".repeat(n)+"|  Q₀  \n"
-        text+="--------------"+"-".repeat(n)+"-"+"-".repeat(n)+"-"+"-".repeat(n)+"-"+"-".repeat(n)+"-------\n"
-
-       // STEPS
-        for (let i = 0; i < steps.length; i++){
-            // INITIAL
-            text += "     "
-            if (i<9) text+=" "
-            text+=i+1+"      |"
-            if (steps.length%2==0) text+="  " //if length is even
-            else text+=" "
-            text+=steps[i].initial_A+"  |  "+steps[i].initial_Q
-            if (steps.length%2==1) text+="  " //if length is odd
-            else text+="   "
-            text+="|   "
-            // SHIFTED
-            text+="\n             |"
-            if (steps.length%2==0) text+="  " //if length is even
-            else text+=" "
-            text+=steps[i].shifted_A+"  |  "+steps[i].shifted_Q
-            if (steps.length%2==1) text+="  " //if length is odd
-            else text+="   "
-            text+="|"
-            // A = A-M
-            text+="\n             |"
-            if (steps.length%2==0) text+="  " //if length is even
-            else text+=" "
-            text+=steps[i].A_sub_M+"  |  "+steps[i].shifted_Q
-            if (steps.length%2==1) text+="  " //if length is odd
-            else text+="   "
-            text+="|"
-            // FINAL
-            text+="\n             |"
-            if (steps.length%2==0) text+="  " //if length is even
-            else text+=" "
-            text+=steps[i].final_A+"  |  "+steps[i].final_Q
-            if (steps.length%2==1) text+="  " //if length is odd
-            else text+="   "
-            text+="|  "+steps[i].Q_0
-            if (i!=steps.length-1) text+="\n--------------"+"-".repeat(n)+"-"+"-".repeat(n)+"-"+"-".repeat(n)+"-"+"-".repeat(n)+"-------\n"
-        }
-        
-        text+="\n\nQuotient : "+answer.quotient+"\nRemainder: "+answer.remainder
-
-       // file object
-        const file = new Blob([text], {type: 'text/plain'});
-    
-       // anchor link
-        const element = document.createElement("a");
-        element.href = URL.createObjectURL(file);
-        if(submitted.dataType === "decimal") 
-            element.download = parseInt(submitted.dividend,2) + "_" + parseInt(submitted.divisor,2) + ".txt"; 
-        else element.download = submitted.dividend + "_" + submitted.divisor + ".txt"; 
-    
-        // simulate link click
-        document.body.appendChild(element); // Required for this to work in FireFox
-        element.click();
-    }
-
     return (
         <>
         <div className="p-3 font-mont lg:p-5">
@@ -387,8 +304,6 @@ export default function App() {
                             {viewSteps && 
                                 <button 
                                     type="button"
-                                    id="exportBtn"
-                                    onClick={downloadSolution}
                                     className="mt-2 py-3 w-full text-center text-white text-xl font-semibold bg-sky-900 border rounded-lg hover:bg-sky-700"
                                 >
                                     Download Solution
