@@ -222,7 +222,6 @@ export default function App() {
                         <p>Fausto, Lorane Bernadeth</p>
                         <p>Nadela, Cymon Radjh</p>
                         <p>Oliva, Irah Faye</p>
-                        <p>Test</p>
                     </div>
                 </div>
                 <div className="flex items-center justify-center md:justify-end">
