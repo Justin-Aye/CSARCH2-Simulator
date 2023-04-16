@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/CSARCH2-Simulator/static/css/main.3f5a6755.css",
-    "main.js": "/CSARCH2-Simulator/static/js/main.567c91e1.js",
+    "main.css": "/CSARCH2-Simulator/static/css/main.6bcfcae8.css",
+    "main.js": "/CSARCH2-Simulator/static/js/main.d7abef22.js",
     "index.html": "/CSARCH2-Simulator/index.html",
-    "main.3f5a6755.css.map": "/CSARCH2-Simulator/static/css/main.3f5a6755.css.map",
-    "main.567c91e1.js.map": "/CSARCH2-Simulator/static/js/main.567c91e1.js.map"
+    "main.6bcfcae8.css.map": "/CSARCH2-Simulator/static/css/main.6bcfcae8.css.map",
+    "main.d7abef22.js.map": "/CSARCH2-Simulator/static/js/main.d7abef22.js.map"
   },
   "entrypoints": [
-    "static/css/main.3f5a6755.css",
-    "static/js/main.567c91e1.js"
+    "static/css/main.6bcfcae8.css",
+    "static/js/main.d7abef22.js"
   ]
 }
